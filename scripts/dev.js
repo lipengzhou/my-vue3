@@ -29,7 +29,7 @@ execa(
     '--environment',
     [
       // `COMMIT:${commit}`,
-      `TARGET:${target}`,
+      `TARGET:${target}`
       // `FORMATS:${formats || 'global'}`,
       // sourceMap ? `SOURCE_MAP:true` : ``
     ]

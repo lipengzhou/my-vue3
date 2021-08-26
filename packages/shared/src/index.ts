@@ -1,3 +1,2 @@
-console.log('我是 shared')
-export const c = 3
-export const d = 4
+export const isObject = (val: unknown): val is Record<any, any> =>
+  val !== null && typeof val === 'object'
