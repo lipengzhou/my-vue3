@@ -13,5 +13,6 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
+    'no-unused-vars': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
   }
 }

@@ -12,11 +12,26 @@
   <script src="../packages/reactivity/dist/reactivity.global.js"></script>
   <script>
     console.log(VueReactivity)
-    const { reactive } = VueReactivity
-    console.log(reactive({
-      foo: 'bar'
-    }))
-    console.log(reactive(123))
+    const { reactive, readonly } = VueReactivity
+    const user = {
+      name: '张三',
+      age: 18,
+      address: {
+        city: '北京',
+        province: '北京'
+      }
+    }
+    const app = readonly(user)
+    console.log(app)
+    // const obj1 = {
+    //   a: 1
+    // }
+    // const obj2 = {
+    //   b: 2
+    // }
+
+    // console.log(reactive(obj1) === reactive(obj1))
+    // console.log(reactive(obj1))
   </script>
 </body>
 
