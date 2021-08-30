@@ -78,6 +78,7 @@ function createReactiveObject (
   // 优先从缓存中获取
   const existingProxy = proxyMap.get(target)
   if (existingProxy) {
+    console.log('existingProxy', existingProxy)
     return existingProxy
   }
 
