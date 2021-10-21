@@ -3,13 +3,14 @@ import { reactive, readonly } from './reactive'
 
 function createGetter (isReadonly = false, shallow = false) {
   return function get (target: any, key: string, receiver: object) {
-    console.log('get', key)
     // return target[key]
     const res = Reflect.get(target, key, receiver)
+    console.log('get', key, res)
 
-    // 如果是非只读数据，收集依赖
+    // 如果不是只读数据，则需要收集依赖稍后更新视图
     if (!isReadonly) {
       // 收集依赖
+      console.log('收集依赖', key)
     }
 
     // shallowReactive
