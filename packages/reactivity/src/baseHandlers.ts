@@ -1,4 +1,4 @@
-import { extend, isObject } from '@vue/shared'
+import { extend, isObject, isArray, isIntegerKey, hasOwn, hasChanged } from '@vue/shared'
 import { reactive, readonly } from './reactive'
 
 function createGetter (isReadonly = false, shallow = false) {
@@ -32,11 +32,31 @@ function createGetter (isReadonly = false, shallow = false) {
 }
 
 function createSetter (shallow = false) {
-  return function set (target: any, propKey: string, value: any, receiver: object) {
-    // console.log(`${propKey} 被修改了`)
-    // target[propKey] = value // 如果设置失败，没有结果也不会报错，无法得知是否设置成功
-    const res = Reflect.set(target, propKey, value, receiver) // 如果设置失败会返回 false
-    return res
+  return function set (target: any, key: string, value: any, receiver: object) {
+    // 设置属性：
+    //   可能是新增
+    //   可能是修改
+
+    // 处理对象
+    const oldValue = target[key]
+
+    // 先判断是否是新增的数据
+    const hadKey = isArray(target) && isIntegerKey(key)
+      ? Number(key) < target.length
+      : hasOwn(target, key)
+
+    // 再执行修改操作
+    const result = Reflect.set(target, key, value, receiver)
+
+    if (!hadKey) {
+      // 新增处理
+      console.log('新增', key)
+    } else if (hasChanged(oldValue, value)) {
+      // 修改处理
+      console.log('修改', key)
+    }
+
+    return result
   }
 }
 

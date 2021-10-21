@@ -11,18 +11,27 @@
 <body>
   <script src="../packages/reactivity/dist/reactivity.global.js"></script>
   <script>
-    console.log(VueReactivity)
+    // console.log(VueReactivity)
     const { reactive, readonly } = VueReactivity
-    const user = {
-      name: '张三',
-      age: 18,
-      address: {
-        city: '北京',
-        province: '北京'
-      }
-    }
-    const app = reactive(user)
-    console.log(app)
+    const data = reactive({
+      foo: 'bar',
+      user: {
+        name: '张三',
+        age: 18
+      },
+      arr: [1, 2, 3]
+    })
+    // const user = {
+    //   name: '张三',
+    //   age: 18,
+    //   address: {
+    //     city: '北京',
+    //     province: '北京'
+    //   },
+    //   arr: [0, 1, 2]
+    // }
+    // const app = reactive(user)
+    // console.log(app)
     // const obj1 = {
     //   a: 1
     // }
