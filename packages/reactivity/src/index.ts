@@ -9,3 +9,7 @@ export {
   markRaw,
   toRaw
 } from './reactive'
+
+export {
+  effect
+} from './effect'

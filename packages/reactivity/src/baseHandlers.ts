@@ -1,16 +1,19 @@
 import { extend, isObject, isArray, isIntegerKey, hasOwn, hasChanged } from '@vue/shared'
+import { track } from './effect'
+import { TrackOpTypes } from './operations'
 import { reactive, readonly } from './reactive'
 
 function createGetter (isReadonly = false, shallow = false) {
   return function get (target: any, key: string, receiver: object) {
     // return target[key]
     const res = Reflect.get(target, key, receiver)
-    console.log('get', key, res)
+    // console.log('get', key, res)
 
     // 如果不是只读数据，则需要收集依赖稍后更新视图
     if (!isReadonly) {
       // 收集依赖
-      console.log('收集依赖', key)
+      console.log('收集依赖', key, res)
+      track(target, TrackOpTypes.GET, key) // 收集依赖
     }
 
     // shallowReactive
