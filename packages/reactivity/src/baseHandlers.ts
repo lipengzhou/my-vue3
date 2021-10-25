@@ -1,5 +1,5 @@
 import { extend, isObject, isArray, isIntegerKey, hasOwn, hasChanged } from '@vue/shared'
-import { track } from './effect'
+import { track, trigger } from './effect'
 import { TrackOpTypes } from './operations'
 import { reactive, readonly } from './reactive'
 
@@ -54,9 +54,11 @@ function createSetter (shallow = false) {
     if (!hadKey) {
       // 新增处理
       console.log('新增', key)
+      trigger(target, 'add', key, value)
     } else if (hasChanged(oldValue, value)) {
       // 修改处理
       console.log('修改', key)
+      trigger(target, 'set', key, value, oldValue)
     }
 
     return result

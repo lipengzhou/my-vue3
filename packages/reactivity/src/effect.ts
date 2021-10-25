@@ -1,12 +1,14 @@
 import { TrackOpTypes } from './operations'
 
 export function effect (fn: any, options: any = {}) {
+  // 创建响应式 effect
   const effect = createReactiveEffect(fn, options)
 
   if (!options.lazy) {
     effect()
   }
 
+  // 返回响应式 effect
   return effect
 }
 
@@ -35,11 +37,14 @@ function createReactiveEffect (fn: any, options: any) {
   effect._isEffect = true // 用于标识这是个响应式 effect
   effect.raw = fn // 保留 effect 对应的原函数
   effect.options = options // 保留选项属性
+  effect.deps = [] // 用来收集依赖了哪些属性
   return effect
 }
 
 /**
  * 收集依赖
+ * Vue 2 中：一个 dep 对应多个 watcher；一个 watcher 对应多个 dep
+ * Vue 3：一个 effect 对应多个属性，一个属性对应多个 effect
  */
 const targetMap = new WeakMap()
 export function track (target: object, type: TrackOpTypes, key: unknown) {
@@ -47,6 +52,7 @@ export function track (target: object, type: TrackOpTypes, key: unknown) {
   // activeEffect
 
   // 不在 effect 中的不收集依赖
+  // 防止不在 effect 中访问响应式数据
   if (activeEffect === undefined) {
     return
   }
@@ -75,3 +81,13 @@ export function track (target: object, type: TrackOpTypes, key: unknown) {
 //   // 这是一个函数调用栈
 //   data.gender // effect2
 // })
+
+/**
+ * 更新依赖
+ * @param target 目标对象
+ * @param type 更新类型
+ * @param key 属性名
+ * @param newValue 更新后的值
+ * @param oldValue 更新前的值
+ */
+export function trigger (target, type, key, newValue, oldValue?) {}
