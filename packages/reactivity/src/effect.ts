@@ -83,11 +83,19 @@ export function track (target: object, type: TrackOpTypes, key: unknown) {
 // })
 
 /**
- * 更新依赖
+ * 更新依赖：去 targetMap 中找到对应的 effect 并让其执行
  * @param target 目标对象
  * @param type 更新类型
  * @param key 属性名
  * @param newValue 更新后的值
  * @param oldValue 更新前的值
  */
-export function trigger (target, type, key, newValue, oldValue?) {}
+export function trigger (target, type, key, newValue, oldValue?) {
+  const depsMap = targetMap.get(target)
+  if (depsMap) {
+    const deps = depsMap.get(key)
+    if (deps) {
+      deps.foreach(effect => effect())
+    }
+  }
+}
