@@ -95,7 +95,7 @@ export function trigger (target, type, key, newValue, oldValue?) {
   if (depsMap) {
     const deps = depsMap.get(key)
     if (deps) {
-      deps.foreach(effect => effect())
+      deps.forEach(effect => effect())
     }
   }
 }
